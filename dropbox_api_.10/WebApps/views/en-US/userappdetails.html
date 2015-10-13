@@ -1,0 +1,28 @@
+
+<header class="user" ng-include="'views/en-US/header.html'"></header>
+<div class ="userappdetails">
+<form role="form">
+  <div class="col-lg-2" >
+    <label for="username"> Give user name</label>
+    <input type="text" ng-model="userdetails.username" class="form-control" id="username">
+  </div>
+  <div class="col-lg-2" >
+    <label for="appkey">Give App key</label>
+    <input type="text" ng-model="userdetails.app_key" class="form-control" id="appkey">
+  </div>
+  <div class="col-lg-2" >
+    <label for="appsecretkey">Give App secret key</label>
+    <input type="text" ng-model="userdetails.app_secret_key" class="form-control" id="appsecretkey">
+  </div>
+   <div class="col-lg-2" >
+    <label for="accesstoken">Give App token</label>
+    <input type="text" ng-model="userdetails.access_token" class="form-control" id="accesstoken">
+  </div>
+  <button type="submit" class="btn btn-default" ng-click="createUserappDetails()">Save</button>
+  <button type="button" class="btn btn-default" ng-click="editUserappDetails()">Search</button>
+  <button type="button" class="btn btn-default" ng-click="deleteUserappDetails()">Delete</button>
+  <button type="button" class="btn btn-default" ng-click="updateUserappDetails()">Update</button>
+</form>
+</div>
+
+<footer ng-include="'views/en-US/footer.html'"></footer>

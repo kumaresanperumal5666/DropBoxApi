@@ -1,0 +1,160 @@
+<header class="user" ng-include="'views/en-US/header.html'"></header>
+<div class="project">
+	<h1 class="title">Dropbox API</h1>
+	<tabset class="tabs"> <tab heading="Upload">
+	<div class="general">
+		<form class="properties" role="form" method="post" id="fromFileUpload"
+			enctype="multipart/form-data">
+			<div class="item" style="width: 100%;">
+				<label class="control-label col-sm-4 col-xs-12" for="file">
+					Please upload the file : <span class="required"></span>
+				</label>
+				<div class="col-xs-4 input-max controls ">
+					<input class="inline-block" type="file" name="file" ng-model="file"
+						data-rule-required="true" id="file">
+<!-- 					accept=".csv,.xsl,.xml,.mpp,application/vnd.ms-excel this is very -->
+<!-- 					good property -->
+				</div>
+				
+<!-- 				<input type="text" ng-model="user.name" id="name" > -->
+				
+				<span id="vaildFile" class="text-success icon-ok hide">Valid
+					File</span> <span id="invaildFile" class="text-error icon-remove hide">
+					Invalid File</span>
+			</div>
+		</form>
+	</div>
+<!-- 	<hr> -->
+	<div class="action">
+		<button  class="btn btn-info" ng-click="continueFileUpload()">Upload</button>
+		<button class="btn btn-info" ng-click="FileUploadCancel()">Cancel</button>
+	</div>
+	</tab> 
+	<tab heading="Download"> <!-- The table code begins here-->
+	<div class="bs-example">
+		<table class="table">
+			<caption>List of files on dropbox</caption>
+			<thead>
+				<tr>
+					<th>No</th>
+					<th>Filename</th>
+					<th>Delete</th>
+					<th>Download</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="con in files">
+					<td>{{ $index + 1 }}</td>
+					<td>{{con}}</td>
+					<td><p>
+							<a ng-click="deleteFileFromDropbox(con)"><span
+								class="glyphicon glyphicon-trash"></span></a>
+						</p></td>
+					<td><p>
+							<a ng-click="downloadFileFromDropbox(con)"><span
+								class="glyphicon glyphicon-download-alt"></span></a>
+						</p></td>
+					<td>uploaded</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- The table code ends here--> </tab>
+	<tab heading="UserAppDetails" ng-controller="UserappController">
+	<div class ="userappdetails">
+	
+	<div class="item"></div>
+<form role="form">
+<div class="form-group">
+            <label for="username"> Username</label>
+            <input type="text" ng-model="userdetails.username" class="form-control"  placeholder="username">
+        </div>
+        <div class="form-group">
+            <label for="appkey"> Appkey</label>
+            <input type="text" ng-model="userdetails.app_key" class="form-control" placeholder="Appkey">
+        </div>
+         <div class="form-group">
+            <label for="appsecretkey">App secret key</label>
+            <input type="text" ng-model="userdetails.app_secret_key"  class="form-control" placeholder="app secret key">
+        </div>
+        <div class="form-group">
+             <label for="accesstoken">App token</label>
+            <input type="text" ng-model="userdetails.access_token"  class="form-control" placeholder="access token">
+        </div>
+  
+  <button type="submit" class="btn btn-default" ng-click="createUserappDetails()">Save</button>
+  <button type="button" class="btn btn-default" ng-click="editUserappDetails()">Search</button>
+  <button type="button" class="btn btn-default" ng-click="deleteUserappDetails()">Delete</button>
+  <button type="button" class="btn btn-default" ng-click="updateUserappDetails()">Update</button>
+</form>
+</div></tab> 
+<tab heading="Dropbox tree " ng-controller="treeController" >
+	<div class="container">
+		<div class="col-md-6">
+			<!-- Nested list template -->
+			<script type="text/ng-template" id="items_renderer.html">
+               <div ui-tree-handle > 
+					<span ng-show="item.file" class="fa fa-file-text-o"></span> 
+                 <a ng-hide="item.file" class="btn btn-success btn-xs" data-nodrag ng-click="toggle(this);toggleMe(this);"> 
+                <span class="glyphicon glyphicon-folder-close" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"> 
+                  </span></a> 
+                  {{item.title}}
+                  <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)"><span class="glyphicon glyphicon-remove"></span></a> 
+                  <a class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a> 
+                </div> 
+                <ol ui-tree-nodes="options" ng-model="item.items" ng-class="{hidden: collapsed}"> 
+                  <li ng-repeat="item in item.items" collapsed="true" ui-tree-node ng-include="'items_renderer.html'">
+                   </li> 
+                 </ol> 
+               </script>
+
+			<div ui-tree="options" class="col-md-8"  >
+				<ol ui-tree-nodes ng-model="list" >
+					<li ng-repeat="item in list track by $index" ui-tree-node
+						collapsed="true" ng-include="'items_renderer.html'" ></li>
+				</ol>
+			</div>
+
+		</div>
+		<!-- tree end  -->
+
+		<div class="col-md-6" style="height: 262px; width: 461px;">
+			<div class="general">
+				<form class="properties" role="form" method="post"
+					id="fromFileUpload" enctype="multipart/form-data">
+					<div class="item" style="width: 100%;">
+						<label class="control-label col-sm-4" for="file"> Please
+							upload the file : <span class="required"></span>
+						</label>
+						<div class="col-xs-4 input-max controls ">
+						<input type="file" name="file"  data-bind-file="" data-ng-model="theFile" />
+<!-- 						 file-model="myFile" -->
+<!-- 							<input class="inline-block" type="file" name="file" -->
+<!-- 								ng-model="file" data-rule-required="true" id="file"> -->
+							<!-- accept=".csv,.xsl,.xml,.mpp,application/vnd.ms-excel this is very -->
+							<!-- good property -->
+						</div>
+						<!-- <input type="text" ng-model="user.name" id="name" > -->
+					</div>
+				</form>
+			</div>
+			<div class="col-md-12" vcenter>
+				<button class="btn btn-info" ng-click="continueFileUpload()">Upload</button>
+				<button class="btn btn-info" ng-click="delete()">Delete</button>
+				<button class="btn btn-info" ng-click="FileUploadCancel()">Cancel</button>
+			</div>
+
+		</div>
+
+	</div></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</tab></tabset>
+</div>
+<footer ng-include="'views/en-US/footer.html'"></footer>

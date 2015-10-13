@@ -1,0 +1,35 @@
+<!-- Nested list template -->
+              <script type="text/ng-template" id="items_renderer.html">
+                <div ui-tree-handle>
+				<span ng-show="item.file" class="glyphicon glyphicon-folder-close"></span>
+                  <a ng-hide="item.file" class="btn btn-success btn-xs" data-nodrag ng-click="toggle(this);toggleMe(this)">
+                  <span class="glyphicon glyphicon-folder-close" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}">
+                  </span></a>
+                  {{item.title}}
+                  <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)"><span class="glyphicon glyphicon-remove"></span></a>
+                  <a class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
+                </div>
+                <ol ui-tree-nodes="options" ng-model="item.items" ng-class="{hidden: collapsed}">
+                  <li ng-repeat="item in item.items" collapsed="true" ui-tree-node ng-include="'items_renderer.html'">
+                  </li>
+                </ol>
+              </script>
+             
+              <div ui-tree="options">
+                <ol ui-tree-nodes ng-model="list" >
+                  <li ng-repeat="item in list track by $index"  ui-tree-node collapsed="true" ng-include="'items_renderer.html'"></li>
+                </ol>
+              </div>
+            
+            </div>
+
+<!--             <div class="col-lg-6"> -->
+<!--               <h3>Full tree</h3> -->
+<!--               <pre class="code">{{ list | json }}</pre> -->
+<!--             </div> -->
+          </div>
+
+        </div>
+
+      </div>
+    </div>
